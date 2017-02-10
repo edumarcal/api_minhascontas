@@ -1,0 +1,275 @@
+<?php
+//Agradeço a DEUS pelo dom do conhecimento
+
+$path = realpath('../app/controllers');
+$pattern = "#(@api[a-zA-Z]+\s*[a-zA-Z0-9, ()_].*)#";
+$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path),
+RecursiveIteratorIterator::SELF_FIRST);
+$result = array();
+
+foreach($objects as $filename => $object){
+   if(preg_match('/^.+\.php$/i', $filename)) {
+     $file = fopen($filename, "r");
+     $length = filesize($filename);
+     $comments = fread($file, $length);
+     fclose($file);
+     preg_match_all($pattern,$comments,$matches, PREG_PATTERN_ORDER);
+     if(!empty($matches[0])) {
+       array_push($result, $matches[0]);
+     }
+   }
+}
+
+//Definição do HTML
+$html = '';
+$codigoI = '<!DOCTYPE html><!--Agradeço a DEUS pelo dom do conhecimento--><html lang="pt"><head><meta charset="utf-8"><title>Findies API-DOC</title></head><body><div class="site-content">';
+$codigoF = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script></body></html>';
+$headerI = '<header class="navbar-fixed"><nav><div class="nav-wrapper"><ul>';
+// $headerI = '<nav><div class="nav-wrapper"><a href="#" class="brand-logo">';
+// $headerII = '</a><ul id="nav-mobile" class="right hide-on-med-and-down">';
+$grupoI = '<li><a href="#';
+$grupoM = '" class="waves-effect waves-teal bold">';
+$grupoF = '</a></li>';
+$headerF = '</ul></div></nav></header></div>';
+// $headerF = '</ul></div></nav>';
+
+$container = '<div class="container">';
+$tituloI = '<h4 id="';
+$tituloM1 = '">';
+$tituloM2 = '</h4>';
+
+// $tituloI = '<div class="card-panel" id="';
+// $tituloM1 = '"><span class="blue-text text-darken-2">';
+// $tituloM2 = '</span></div>';
+
+
+$rotaI = '<ul><br><li><h5>URL</h5><div class="collection"><a href="#!" class="collection-item"><span class="badge">';
+$rotaMetodo = '</span>';
+$rotaDescI = '</a><p>';
+$rotaDescF = '</p></div></li>';
+$entradaI = '<br><li><h5>Parâmetros de Entrada</h5><table class="striped"><thead><tr><th data-field="atributo">Atributos</th><th data-field="tipo">Tipo</th><th data-field="obrigatorio">Obrigatório</th><th data-field="descricao">Descrição</th></tr></thead><tbody><tr><td>';
+$entradaRI = '<tr>';
+$entradaRF = '</tr>';
+$entradaMI = '<td>';
+$entradaMF = '</td>';
+$entradaF = '</tr></tbody></table></li>';
+$saidaI = '<br><li><h5>Retorno</h5>';
+$saidaErro = '<h6>Falha</h6><div class="collection"><pre class="collection-item"><script type="text/javascript">var data=';
+$saidaErroM = ';document.getElementsByTagName("pre")[';
+$saidaErroF = '].innerHTML = JSON.stringify(data, undefined, 2);</script></pre></div>';
+$saidaSucesso = '<h6>Sucesso</h6><div class="collection"><pre class="collection-item"><script type="text/javascript">var data=';
+$saidaSucessoF = ';document.getElementsByTagName("pre")[';
+$saidaSucessoFF = '].innerHTML = JSON.stringify(data, undefined, 2);</script></pre></div></li></ul><br><!--Codigo Feio-->'; //add separate <br><hr />
+
+//Inicio do código
+$html.=$codigoI;
+
+//Partes atualizaveis
+$menu = array();
+$itemMenu = true;
+$tabela = true;
+$contador = 0;
+
+//partes do HTML
+$htmlBody = '';
+$htmlGrupo = '';
+$htmlRota = '';
+$htmlDescricao = '';
+$htmlEntrada = '';
+$htmlSaidaErro = '';
+$htmlSaidaSucesso = '';
+
+foreach ($result as $key => $row) {
+  // echo "Linha:\t";
+  // print_r($row);
+  // echo "\n";
+  // echo "Indice:\t";
+  // print_r($key);
+  // echo "\n";
+  foreach ($row as $key => $value) {
+    preg_match('/(\S)*/', $value, $annotation);
+    switch ($annotation[0]) {
+      case '@apiGrupo':
+        $itemGrupo = preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9, ()_]. )#", "", $value);
+        if (!in_array($itemGrupo, $menu)) {
+            array_push($menu, $itemGrupo);
+
+            $htmlGrupo.=$tituloI;
+            $htmlGrupo.=$itemGrupo;
+            $htmlGrupo.=$tituloM1;
+            $htmlGrupo.=$itemGrupo;
+            $htmlGrupo.=$tituloM2;
+
+            // $html.=$tituloI;
+            // $html.=$itemGrupo;
+            // $html.=$tituloM1;
+            // $html.=$itemGrupo;
+            // $html.=$tituloM2;
+        }
+     break;
+      case '@apiRota':
+        $rota = explode(" ", preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9, ()_]. )#", "", $value));
+        
+        $htmlRota.=$rotaI;
+        $htmlRota.=$rota[0]; //Metodo
+        $htmlRota.=$rotaMetodo;
+        $htmlRota.=$rota[1]; //url
+        $htmlRota.=$rotaDescI;        
+
+        // $html.=$rotaI;
+        // $html.=$rota[0]; //Metodo
+        // $html.=$rotaMetodo;
+        // $html.=$rota[1]; //url
+        // $html.=$rotaDescI;
+      break;
+      case '@apiDescricao':
+        $descricao = preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9, ()_]. )#", "", $value);
+        
+        $htmlDescricao.=$descricao;
+        $htmlDescricao.=$rotaDescF;
+        
+        // $html.=$descricao;
+        // $html.=$rotaDescF;
+      break;
+      case '@apiEntrada':
+        $entrada = explode(" ", preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9, ()_]. )#", "", $value));
+        
+        if($tabela) {
+          $htmlEntrada.=$entradaI;
+        } else {
+          $htmlEntrada.=$entradaRI;
+          $htmlEntrada.=$entradaMI;
+        }
+        $tabela = false;
+        $htmlEntrada.=$entrada[0];
+        $htmlEntrada.=$entradaMF;
+        $htmlEntrada.=$entradaMI;
+        $htmlEntrada.=$entrada[1];
+        $htmlEntrada.=$entradaMF;
+        $htmlEntrada.=$entradaMI;
+        $htmlEntrada.=$entrada[2];
+        $htmlEntrada.=$entradaMF;
+        $htmlEntrada.=$entradaMI;
+        $htmlEntrada.=explode('-', $value)[1];
+        $htmlEntrada.=$entradaMF;
+        if(!$tabela) {
+          $htmlEntrada.=$entradaRF;
+        }
+
+        // if($tabela) {
+        //   $html.=$entradaI;
+        // } else {
+        //   $html.=$entradaRI;
+        //   $html.=$entradaMI;
+        // }
+        // $tabela = false;
+        // $html.=$entrada[0];
+        // $html.=$entradaMF;
+        // $html.=$entradaMI;
+        // $html.=$entrada[1];
+        // $html.=$entradaMF;
+        // $html.=$entradaMI;
+        // $html.=$entrada[2];
+        // $html.=$entradaMF;
+        // $html.=$entradaMI;
+        // $html.=explode('-', $value)[1];
+        // $html.=$entradaMF;
+        // if(!$tabela) {
+        //   $html.=$entradaRF;
+        // }
+      break;
+      case '@apiSaidaErro':
+        $tabela = true;
+        
+        $htmlEntrada.=$entradaF;
+
+        //$html.=$entradaF;
+        
+        $erro = preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9,()_]. )#", "", $value);
+        
+        $htmlSaidaErro.=$saidaI;
+        $htmlSaidaErro.=$saidaErro;
+        $htmlSaidaErro.=$erro;
+        $htmlSaidaErro.=$saidaErroM;
+        $htmlSaidaErro.=$contador;
+        $contador++;
+        $htmlSaidaErro.=$saidaErroF;
+
+
+        // $htmlSaidaErro.=$saidaI;
+        // $htmlSaidaErro.=$saidaErro;
+        // $htmlSaidaErro.=$erro;
+        // $htmlSaidaErro.=$saidaErroF;
+
+        // $html.=$saidaI;
+        // $html.=$saidaErro;
+        // $html.=$erro;
+        // $html.=$saidaErroF;
+      break;
+      case '@apiSaidaSucesso':
+        $sucesso = preg_replace("#(@api[a-zA-Z]+\s*[a-zA-Z0-9,()_]. )#", "", $value);
+        
+        $htmlSaidaSucesso.=$saidaSucesso;
+        $htmlSaidaSucesso.=$sucesso;
+        $htmlSaidaSucesso.=$saidaSucessoF;
+        $htmlSaidaSucesso.=$contador;
+        $contador++;
+        $htmlSaidaSucesso.=$saidaSucessoFF;
+
+        // $htmlSaidaSucesso.=$saidaSucesso;
+        // $htmlSaidaSucesso.=$sucesso;
+        // $htmlSaidaSucesso.=$saidaSucessoF;
+
+        // $html.=$saidaSucesso;
+        // $html.=$sucesso;
+        // $html.=$saidaSucessoF;
+      break;
+    }
+ }
+
+$htmlBody.=$htmlGrupo;
+$htmlBody.=$htmlRota;
+$htmlBody.=$htmlDescricao;
+$htmlBody.=$htmlEntrada;
+$htmlBody.=$htmlSaidaErro;
+$htmlBody.=$htmlSaidaSucesso;
+
+$htmlGrupo = '';
+$htmlRota = '';
+$htmlDescricao = '';
+$htmlEntrada = '';
+$htmlSaidaErro = '';
+$htmlSaidaSucesso = '';
+
+}
+
+//Add menu
+$html.=$headerI;
+foreach ($menu as $key => $value) {
+ // echo $key."\n";
+ // echo $value."\n";
+  $html.=$grupoI;
+  $html.=$value;
+  $html.=$grupoM;
+  $html.=$value;
+  $html.=$grupoF;
+}
+$html.=$headerF;
+$html.=$container;
+$html.=$htmlBody;
+$html.='</div><!--FIM CONATINER-->';
+
+$html.='<footer class="page-footer"><div class="footer-copyright"><div class="container"> © Findies API-DOC <h5 class="right">';
+$html.='Atualizado em: ';
+$html.= date("d-m-Y H:i");
+$html.='</h5></div></div></footer>';
+$html.=$codigoF;
+
+$myfile = fopen("index.html", "w") or die("Erro ao carregar o arquivo");
+fwrite($myfile, $html);
+fclose($myfile);
+
+//echo "\n---------------------------------------------------------------------------------------\n";
+//echo $html;
+//echo "\n------------------------------------------------------\n";
+ ?>
