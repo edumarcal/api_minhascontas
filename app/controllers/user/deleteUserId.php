@@ -2,7 +2,7 @@
 //Agradeço a DEUS pelo dom do conhecimento
 
 /**
-*@apiGrupo Locais
+*@apiGrupo User
 *@apiRota DELETE /api/user/:id/delete
 *@apiDescricao Deleta um usuário cadastrado na base de dados (
 *@apiSaidaErro  [ {"persistence":false} , {"validation": false}, {"autorizacao": false}, {"dbErro": "validação do banco"}, {"status":false} ]

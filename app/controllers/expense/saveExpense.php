@@ -15,5 +15,6 @@
 */
 
 (@include_once(ROOT_DIR."/connection.php")) or die(JSON_CONNECTION);
+(@include_once(ROOT_DIR."/validation/verify_token_session.php")) or die(JSON_VALIDATION);
 (@include_once(ROOT_DIR."/persistence/expense/saveExpense.php")) or die(JSON_PERSITENCE);
 die(JSON_SUCESSO);

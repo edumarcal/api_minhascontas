@@ -19,11 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 	switch ($_SERVER['REQUEST_URI']) {
 		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/user/getUserId.php';
-		case '/expenses':
+		case '/api/expenses':
 			return include ROOT_DIR.'/controllers/expense/getAllExpenses.php';	
 		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/expense/getExpenseId.php';
-		case '/doc':
+		case '/':
 			die(header("Location: /doc"));
 		default:
 			die(ROTA_FALHA);
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			return include ROOT_DIR.'/controllers/user/session.php';
 		case '/api/user':
 			return include ROOT_DIR.'/controllers/user/saveUser.php';	
-		case '/expenses':
+		case '/api/expenses':
 			return include ROOT_DIR.'/controllers/expense/saveExpense.php';	
 		default:
 			die(ROTA_FALHA);

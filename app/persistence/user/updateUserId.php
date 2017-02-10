@@ -22,8 +22,6 @@ foreach ($objeto as $key => $value)
 $sql = substr($sql, 0, -2);
 $sql.= " WHERE id = '$url[3]'";
 
-echo $sql;
-
 pg_query($banco, $sql) or die('{"dbErro": "' . pg_last_error() . '"}');
 if(pg_affected_rows($banco) == 0)  die(JSON_FALHA);
 pg_close($banco);
