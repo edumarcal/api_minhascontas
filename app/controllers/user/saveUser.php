@@ -12,5 +12,6 @@
 */
 
 (@include_once(ROOT_DIR."/connection.php")) or die(JSON_CONNECTION);
+(@include_once(ROOT_DIR."/generate_token_session.php")) or die(JSON_CONNECTION);
 (@include_once(ROOT_DIR."/persistence/user/saveUser.php")) or die(JSON_PERSITENCE);
 die(JSON_SUCESSO);

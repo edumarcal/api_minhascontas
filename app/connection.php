@@ -1,5 +1,3 @@
 <?php
-
-$banco = @mysqli_connect('localhost', 'root', '1234') or die('{"dbConnection" : "' . mysqli_connect_error() .'"}');
-mysqli_set_charset($banco,"utf8");
-mysqli_select_db($banco, 'db_findies' ) or  die (JSON_DATABASE($banco));
+//Agradeço a DEUS pelo dom do conhecimento
+$banco = pg_connect('host=localhost dbname=minhascontas user=postgres password=p@ssw0rd') or die('{"dbErro" : "' . pg_last_error() .'"}');

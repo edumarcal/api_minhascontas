@@ -8,17 +8,20 @@ DEFINE("JSON_FALHA", '{"status": false}');
 DEFINE("JSON_PERSISTENCE", '{"persistence":false}');
 DEFINE("JSON_CONNECTION", '{"connection":false}');
 DEFINE("JSON_TOKEN", '{"autorizacao": false}');
+DEFINE("JSON_PARSER", '{"json": false}');
+DEFINE("JSON_MALFORMADO", '{"padrao": false}');
+DEFINE("JSON_VALIDATION", '{"validation":false}');
 
-$url = explode("/", $SERVER['REQUEST_URI']);
+$url = explode("/", $_SERVER['REQUEST_URI']);
 
-if ($SERVER['REQUEST_METHOD'] == 'GET')
+if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-	switch ($SERVER['REQUEST_URI']) {
-		case '/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+	switch ($_SERVER['REQUEST_URI']) {
+		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/user/getUserId.php';
 		case '/expenses':
 			return include ROOT_DIR.'/controllers/expense/getAllExpenses.php';	
-		case '/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/expense/getExpenseId.php';
 		case '/doc':
 			die(header("Location: /doc"));
@@ -27,10 +30,12 @@ if ($SERVER['REQUEST_METHOD'] == 'GET')
 	}
 }
 
-if ($SERVER['REQUEST_METHOD'] == 'POST')
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-	switch ($SERVER['REQUEST_URI']) {
-		case '/user':
+	switch ($_SERVER['REQUEST_URI']) {
+		case '/api/login':
+			return include ROOT_DIR.'/controllers/user/session.php';
+		case '/api/user':
 			return include ROOT_DIR.'/controllers/user/saveUser.php';	
 		case '/expenses':
 			return include ROOT_DIR.'/controllers/expense/saveExpense.php';	
@@ -39,24 +44,24 @@ if ($SERVER['REQUEST_METHOD'] == 'POST')
 	}
 }
 
-if ($SERVER['REQUEST_METHOD'] == 'PUT')
+if ($_SERVER['REQUEST_METHOD'] == 'PUT')
 {
-	switch ($SERVER['REQUEST_URI']) {
-		case '/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+	switch ($_SERVER['REQUEST_URI']) {
+		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/user/updateUserId.php';	
-		case '/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/expense/updateExpenseId.php';	
 		default:
 			die(ROTA_FALHA);
 	}
 }
 
-if ($SERVER['REQUEST_METHOD'] == 'DELETE')
+if ($_SERVER['REQUEST_METHOD'] == 'DELETE')
 {
-	switch ($SERVER['REQUEST_URI']) {
-		case '/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+	switch ($_SERVER['REQUEST_URI']) {
+		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/user/deleteUserId.php';	
-		case '/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
+		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
 			return include ROOT_DIR.'/controllers/expense/deleteExpenseId.php';	
 		default:
 			die(ROTA_FALHA);
