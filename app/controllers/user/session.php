@@ -11,7 +11,6 @@
 *@apiSaidaSucesso { "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNeUR1IiwidXNlcmVtYWlsIjoiVGVzdGUiLCJ2YWxpZCI6Im5vIn0=.V0aT\/r5Fjl2+yQaHAE17EcRWYBiE5I3IcO78EOtm7XA=" }
 */
 
-(@include_once(ROOT_DIR."/connection.php")) or die(JSON_CONNECTION);
-(@include_once(ROOT_DIR."/generate_token_session.php")) or die(JSON_CONNECTION);
+(@include_once(ROOT_DIR."/connection/connection.php")) or die(JSON_CONNECTION);
 (@include_once(ROOT_DIR."/persistence/user/session.php")) or die(JSON_PERSISTENCE);
 die(json_encode($retorno, JSON_PRETTY_PRINT));

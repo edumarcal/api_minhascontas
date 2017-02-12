@@ -9,7 +9,7 @@
 *@apiSaidaSucesso { "status": true }
 */
 
-(@include_once(ROOT_DIR."/connection.php")) or die(JSON_CONNECTION);
+(@include_once(ROOT_DIR."/connection/connection.php")) or die(JSON_CONNECTION);
 (@include_once(ROOT_DIR."/validation/verify_token_session.php")) or die(JSON_VALIDATION);
 (@include_once(ROOT_DIR."/persistence/user/getUserId.php")) or die(JSON_PERSISTENCE);
 die(json_encode($retorno, JSON_PRETTY_PRINT));
