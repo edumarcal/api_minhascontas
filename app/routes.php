@@ -1,6 +1,11 @@
 <?php
 //Agradeço a DEUS pelo dom do conhecimento
 
+header("Access-Control-Allow-Origin: *");
+header("Content-type: application/json");
+header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: X-Requested-With, Accept, Authorization, Content-type, Token");
+
 DEFINE("ROOT_DIR", __DIR__);
 DEFINE("ROTA_FALHA", '{"url":false}');
 DEFINE("JSON_SUCESSO", '{"status": true}');
