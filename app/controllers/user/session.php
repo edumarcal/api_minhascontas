@@ -5,8 +5,8 @@
 *@apiGrupo User
 *@apiRota POST /api/login 
 *@apiDescricao Login do usuário
-*@apiEntrada name Texto[100] Sim -Login de acesso do usuário
-*@apiEntrada password Texto[100] Sim -Senha do usuário
+*@apiEntrada name Texto Sim -Login de acesso do usuário
+*@apiEntrada password Texto Sim -Senha de acesso do usuário
 *@apiSaidaErro { "token": "" } ]
 *@apiSaidaSucesso { "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNeUR1IiwidXNlcmVtYWlsIjoiVGVzdGUiLCJ2YWxpZCI6Im5vIn0=.V0aT\/r5Fjl2+yQaHAE17EcRWYBiE5I3IcO78EOtm7XA=" }
 */
