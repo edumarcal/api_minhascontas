@@ -18,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
 	switch ($_SERVER['REQUEST_URI']) {
 		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/user/getUserId.php';
+			include ROOT_DIR.'/controllers/user/getUserId.php';
 		case '/api/expenses':
-			return include ROOT_DIR.'/controllers/expense/getAllExpenses.php';	
+			include ROOT_DIR.'/controllers/expense/getAllExpenses.php';	
 		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/expense/getExpenseId.php';
+			include ROOT_DIR.'/controllers/expense/getExpenseId.php';
 		case '/':
 			die(header("Location: /doc"));
 		default:
@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	switch ($_SERVER['REQUEST_URI']) {
 		case '/api/login':
-			return include ROOT_DIR.'/controllers/user/session.php';
+			include ROOT_DIR.'/controllers/user/session.php';
 		case '/api/user':
-			return include ROOT_DIR.'/controllers/user/saveUser.php';	
+			include ROOT_DIR.'/controllers/user/saveUser.php';	
 		case '/api/expenses':
-			return include ROOT_DIR.'/controllers/expense/saveExpense.php';	
+			include ROOT_DIR.'/controllers/expense/saveExpense.php';	
 		default:
 			die(ROTA_FALHA);
 	}
@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
 {
 	switch ($_SERVER['REQUEST_URI']) {
 		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/user/updateUserId.php';	
+			include ROOT_DIR.'/controllers/user/updateUserId.php';	
 		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/expense/updateExpenseId.php';	
+			include ROOT_DIR.'/controllers/expense/updateExpenseId.php';	
 		default:
 			die(ROTA_FALHA);
 	}
@@ -60,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE')
 {
 	switch ($_SERVER['REQUEST_URI']) {
 		case '/api/user/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/user/deleteUserId.php';	
+			include ROOT_DIR.'/controllers/user/deleteUserId.php';	
 		case '/api/expenses/'. filter_var(@$url[3],  FILTER_VALIDATE_INT):
-			return include ROOT_DIR.'/controllers/expense/deleteExpenseId.php';	
+			include ROOT_DIR.'/controllers/expense/deleteExpenseId.php';	
 		default:
 			die(ROTA_FALHA);
 	}
