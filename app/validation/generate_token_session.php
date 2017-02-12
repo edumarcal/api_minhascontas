@@ -1,7 +1,7 @@
 <?php
 //Agradeço a DEUS pelo dom do conhecimento
 
-function generateTokenSession()
+function generateTokenSession($name)
 {
 	//generate token
 	$key='ch@v3-3ncr1pt@d@_MyDu'.rand();
@@ -17,7 +17,7 @@ function generateTokenSession()
 
 	$payload=[
 	'iss'=>'MyDu',
-	'useremail'=>"$objeto->name",
+	'useremail'=>$name,
 	'valid'=>'no'
 	];
 

@@ -11,7 +11,7 @@ $command = pg_query($banco, "SELECT id FROM users WHERE name = '$objeto->name' A
 $id = pg_fetch_array($command)['id'];
 if(empty($id))  die('{"token": ""}');
 
-$token = generateTokenSession();
+$token = generateTokenSession($objeto->name);
 pg_query($banco, "UPDATE users SET token = '".$token."' WHERE id = '$id'") or die('{"dbErro": "' . pg_last_error() . '"}');
 pg_close($banco);
 
